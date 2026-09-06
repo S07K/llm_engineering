@@ -35,6 +35,6 @@ class EnsembleAgent(Agent):
         specialist = self.specialist.price(rewrite)
         frontier = self.frontier.price(rewrite)
         neural_network = self.neural_network.price(rewrite)
-        combined = frontier * 0.8 + specialist * 0.1 + neural_network * 0.1
+        combined = frontier * 0.1 + specialist * 0.8 + neural_network * 0.1
         self.log(f"Ensemble Agent complete - returning ${combined:.2f}")
         return combined

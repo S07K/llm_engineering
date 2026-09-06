@@ -5,7 +5,7 @@ from agents.agent import Agent
 
 
 class ScannerAgent(Agent):
-    MODEL = "gpt-5-mini"
+    MODEL = "llama3.2:3b"
 
     SYSTEM_PROMPT = """You identify and summarize the 5 most detailed deals from a list, by selecting deals that have the most detailed, high quality description and the most clear price.
     Respond strictly in JSON with no explanation, using this format. You should provide the price as a number derived from the description. If the price of a deal isn't clear, do not include that deal in your response.
@@ -32,7 +32,7 @@ class ScannerAgent(Agent):
         Set up this instance by initializing OpenAI
         """
         self.log("Scanner Agent is initializing")
-        self.openai = OpenAI()
+        self.openai = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
         self.log("Scanner Agent is ready")
 
     def fetch_deals(self, memory) -> List[ScrapedDeal]:
@@ -74,7 +74,7 @@ class ScannerAgent(Agent):
                     {"role": "user", "content": user_prompt},
                 ],
                 response_format=DealSelection,
-                reasoning_effort="minimal",
+                # reasoning_effort="low",
             )
             result = result.choices[0].message.parsed
             result.deals = [deal for deal in result.deals if deal.price > 0]

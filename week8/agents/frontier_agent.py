@@ -9,7 +9,7 @@ class FrontierAgent(Agent):
     name = "Frontier Agent"
     color = Agent.BLUE
 
-    MODEL = "gpt-4o-mini"
+    MODEL = "llama3.2:3b"
 
     def __init__(self, collection):
         """
@@ -17,8 +17,8 @@ class FrontierAgent(Agent):
         And setting up the vector encoding model
         """
         self.log("Initializing Frontier Agent")
-        self.client = OpenAI()
-        self.MODEL = "gpt-5.1"
+        self.client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+        self.MODEL = "llama3.2:3b"
         self.log("Frontier Agent is setting up with OpenAI")
         self.collection = collection
         self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
